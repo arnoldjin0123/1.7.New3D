@@ -4,19 +4,29 @@ using UnityEngine;
 
 public class AlertTouchEvent : MonoBehaviour
 {
-    public bool PlayerIn = false;
+    private Animator MonsterANI;
+    private void Awake()
+    {
+        MonsterANI = GameObject.Find("Monster").GetComponent<Animator>();
+    }
     private void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.name == "Player")
+        if (col.tag == "Player")
         {
-            PlayerIn = true;
+            PlayGameData.playerIn = true;
+            MonsterANI.SetBool("Walk", true);
+            Debug.Log("Player in");
+            Debug.Log("PlayerIn="+PlayGameData.playerIn);
         }
     }
     private void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.name == "Player")
+        if (col.tag == "Player")
         {
-            PlayerIn = false;
+            PlayGameData.playerIn = false;
+            MonsterANI.SetBool("Walk", false);
+            Debug.Log("Player out");
+            Debug.Log("PlayerIn=" + PlayGameData.playerIn);
         }
     }
 }
