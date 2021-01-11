@@ -8,14 +8,14 @@ public class TitleMonsterTouchEvent : MonoBehaviour
     [Header("WalkingSpeed"), Range(0, 20f)]
     public float Speed = 0.1f;
     private bool Walking = false;
-    private bool TimerOn = false;
-    private float Time_f = 0f;
     private Transform MonsterPossition;
     private Animator MonsterANI;
+    private Animator TitleCameraANI;
     private GameObject SkyGround;
     private void Awake()
     {
         MonsterANI = GetComponent<Animator>();
+        TitleCameraANI = GameObject.Find("Main Camera").GetComponent<Animator>();
         SkyGround = GameObject.Find("SkyGround");
         MonsterPossition = transform;
     }
@@ -24,14 +24,20 @@ public class TitleMonsterTouchEvent : MonoBehaviour
     {
         StartWalking();
         StopWalking();
-        Timer();
-        if (Time_f >= 1 )
-        {
-            SceneManager.LoadScene("BaseLevel");
-            Debug.Log("Load Level");
-        }
     }
     //持續執行 StartWalking, StopWalking, Timer
+    public void LetTitleCameraShake1()
+    {
+        TitleCameraANI.SetTrigger("Shake1");
+    }
+    public void LetTitleCameraShake2()
+    {
+        TitleCameraANI.SetTrigger("Shake2");
+    }
+    public void NextSence()
+    {
+        SceneManager.LoadScene("BaseLevel");
+    }
     private void StartWalking()
     {
         if (Walking == true)
@@ -63,20 +69,8 @@ public class TitleMonsterTouchEvent : MonoBehaviour
         {
             Walking = false;
             MonsterANI.SetTrigger("Attack");
-            Time_f = 0f;
-            TimerOn = true;
-            Debug.Log("Timer On");
         }
     }
     //碰到MonsterStop時，停止走路，攻擊一次，Timer開始記時
-    private void Timer()
-    {
-        if (TimerOn == true)
-        {
-            Time_f += Time.deltaTime;
-            Debug.Log("Timer_f=" + Time_f);
-        }
-    }
-    //記時器
 
 }

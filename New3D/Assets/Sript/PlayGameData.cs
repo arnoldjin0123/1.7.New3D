@@ -9,6 +9,8 @@ public class PlayGameData : MonoBehaviour
     static public bool playerIn = false;
     static public int PlayerHP = 100;
     static public int PlayerBreath = 100;
+    //怪物資料
+    static public int MonsterHP = 100;
     //UI資料
     private Text UIMISName;
     private Text UIMISDetal;

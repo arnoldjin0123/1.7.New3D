@@ -7,7 +7,7 @@ public class AlertTouchEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Player")
+        if (col.tag == "Player" && PlayGameData.PlayerHP > 0)
         {
             PlayGameData.playerIn = true;
             Debug.Log("Player in");

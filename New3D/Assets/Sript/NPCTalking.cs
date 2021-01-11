@@ -69,7 +69,6 @@ public class NPCTalking : MonoBehaviour
         {
             PlayerImTalkingArea = true;
             NPCANI.SetBool("Talking", true);
-
         }
     }
     private void OnTriggerExit(Collider col)
