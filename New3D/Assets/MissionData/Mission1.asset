@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c5ada2130b89f4283cc5c77ceca5c7, type: 3}
+  m_Name: Mission1
+  m_EditorClassIdentifier: 
+  Daiolouge1: "\u6211\u7684\u8001\u5929\u723A\u963F\uFF0C \u7378\u4EBA\u5F9E\u5929\u4E0A\u6389\u4E0B\u4F86\u4E86!"
+  Daiolouge2: "\u6211\u89AA\u611B\u7684\u72D7\u72D7\u963F\uFF0C\u4F60\u662F\u5426\u53EF\u4EE5\u5E6B\u6211\u9664\u6389\u4ED6\u5462?"
+  Daiolouge3: "\u53EA\u8981\u4F60\u5E6B\u6211\u9664\u6389\u4ED6\uFF0C\u4F60\u5C31\u80FD\u7372\u5F97\u8C50\u5BCC\u7684\u734E\u52F5"
+  MissionIteamAmount: 1
+  PlayerIteamAmount: 0
