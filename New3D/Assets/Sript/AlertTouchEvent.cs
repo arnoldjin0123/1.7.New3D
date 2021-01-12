@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AlertTouchEvent : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Player" && PlayGameData.PlayerHP > 0)

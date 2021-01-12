@@ -15,6 +15,10 @@ public class PlayerAttack : MonoBehaviour
     private float BugTimer_f = 0f;
     private int Waitani_P = 0;
 
+    public Transform ATKPoint;
+    public float ATKLengh;
+    private RaycastHit HitObject;
+
     private void Awake() { PlayerANI = GetComponent<Animator>(); }
     private void Update()
     {
@@ -26,7 +30,8 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Combo1_P_ANI ==true) { BugTimer_f += Time.deltaTime; }
         else if (Combo2_P_ANI == true) { BugTimer_f += Time.deltaTime; }
-        if (BugTimer_f> 1f ) 
+        else if (Combo1_P_ANI == false && Combo2_P_ANI == false) { BugTimer_f += Time.deltaTime; }
+        if (BugTimer_f> 1.5f ) 
         {
             NowCombo = 0; 
             BugTimer_f = 0f;
@@ -54,7 +59,16 @@ public class PlayerAttack : MonoBehaviour
     {
         Debug.Log("Now is AttakStart");
         PlayerANI.SetInteger("Combo", 0);
-        if (Input.GetKeyDown(KeyCode.Mouse0))  { NowCombo=1; Debug.Log("you has right click"); }//進COMBO1
+        if (Input.GetKeyDown(KeyCode.Mouse0))  
+        { 
+            NowCombo=1;
+            if (Physics.Raycast(ATKPoint.position, ATKPoint.forward, out HitObject, ATKLengh, 1 << 9))
+            {
+                MonsterHurt.GetHurt = true;
+                Debug.Log(HitObject.collider.name + "is get hurt");
+            }
+            Debug.Log("you has right click");
+        }//進COMBO1
     }
     private void Combo1()
     {
@@ -105,11 +119,21 @@ public class PlayerAttack : MonoBehaviour
             CanGoNext = false;
             if (NowCombo < 2)
             {
+                if (Physics.Raycast(ATKPoint.position, ATKPoint.forward, out HitObject, ATKLengh, 1 << 9))
+                {
+                    MonsterHurt.GetHurt = true;
+                    Debug.Log(HitObject.collider.name + "is get hurt");
+                }
                 NowCombo = 2; //進入COMBO2
                 Debug.Log("You will go to combo 2");
             }
             if (NowCombo == 2 && Combo2SPGate == true)
             {
+                if (Physics.Raycast(ATKPoint.position, ATKPoint.forward, out HitObject, ATKLengh, 1 << 9))
+                {
+                    MonsterHurt.GetHurt = true;
+                    Debug.Log(HitObject.collider.name + "is get hurt");
+                }
                 Combo2SPGate = false;
                 NowCombo = 1; //進入COMBO1
                 Debug.Log("You will go to combo 1");
@@ -144,5 +168,9 @@ public class PlayerAttack : MonoBehaviour
         Waitani_P = 0;
         Debug.Log("Combo 2 has finish");
     }
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(ATKPoint.position, ATKPoint.forward * ATKLengh);
+    }
 }

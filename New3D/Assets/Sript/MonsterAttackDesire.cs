@@ -54,7 +54,7 @@ public class MonsterAttackDesire : MonoBehaviour
 
     private void Track()
     {
-        if (PlayGameData.playerIn == true)
+        if (PlayGameData.playerIn == true && PlayGameData.MonsterHP > 0)
         {
             RW_StartWalking = false;
             RW_Timer_On = false;
@@ -67,7 +67,7 @@ public class MonsterAttackDesire : MonoBehaviour
                 PlayGameData.playerIn = false;
             }
         }
-        if (PlayGameData.playerIn == false)
+        if (PlayGameData.playerIn == false && PlayGameData.MonsterHP > 0)
         {
             MonsterANI.SetBool("Run", false);
             nav.SetDestination(NoTarget.position);
@@ -75,6 +75,10 @@ public class MonsterAttackDesire : MonoBehaviour
             RandomWalkTimer();
             NoTargetWalk();
             Debug.Log("None Target");
+        }
+        else if (PlayGameData.playerIn == false)
+        {
+            nav.SetDestination(NoTarget.position);
         }
     }
     private void NoTargetWalk()

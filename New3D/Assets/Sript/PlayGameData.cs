@@ -17,6 +17,7 @@ public class PlayGameData : MonoBehaviour
     private Text UIFinishWord;
     private GameObject FinishWordActive;
     //任務群組資訊
+    static public int NowMIS_NUM = 0;
     private string MISName = " 目前沒有任何任務 ";
     private string MISDetal = " 想幹嘛就幹嘛~ ";
     private string FinishWord = " ";
@@ -71,6 +72,7 @@ public class PlayGameData : MonoBehaviour
     {
         MISName = ("這裡是誰，我是哪裡?");
         MISDetal = ("尋找綠衣村名並和他對話");
+        NowMIS_NUM = 1;
         Debug.Log("You have take the NPCtalk mission");
     }
     public void MISTalkToNPC_FIN()
@@ -78,26 +80,28 @@ public class PlayGameData : MonoBehaviour
         FinishWord = ("完成與村民的對話");
         Debug.Log("You have finish the NPCtalk missioin");
         FinishWordDissplay();
-        ClearMIS();
+        MISKiilMonster_Take();
     }
     public void MISKiilMonster_Take()
     {
         MISName = ("討伐從天而降的獸人");
         MISDetal = ("跟著路牌尋找獸人並擊敗他");
         Debug.Log("You have take the KillMoster mission");
+        NowMIS_NUM = 1;
     }
     public void MISKillMonster_FIN()
     {
         FinishWord = ("完成獸人討伐");
         Debug.Log("You have finish the KillMoster missioin");
         FinishWordDissplay();
-        ClearMIS();
+        MISBackToNPC_Take();
     }
     public void MISBackToNPC_Take()
     {
         MISName = ("回報任務");
         MISDetal = ("會去綠衣村民那裡回報任務");
         Debug.Log("You have take the BackToNPC mission");
+        NowMIS_NUM = 3;
     }
     public void MISBackToNOC_FIN()
     {

@@ -23,14 +23,12 @@ public class NPCTalking : MonoBehaviour
     private string NPCTalkingWord;
     [Header("No Misstion Daiolouge"),TextArea(0,5)]
     public string NormalDaiolouge;
-
     //NPC正在說話Bool，快轉Bool，段落int
     private bool PlayerImTalkingArea = false;
     private bool NPCIsTalking = false;
     private bool DaioLouge1Talked = false;
     private bool Skip = false;
     private int paragraph = 0;
-
 
     private void Start()
     {
@@ -42,25 +40,40 @@ public class NPCTalking : MonoBehaviour
         RightClickToSkipWord();
         SwitchToNextParagraph();
         NPCStartTalking();
-        if (Input.GetKeyDown(KeyCode.Mouse1) && paragraph == 2
-            && NPCIsTalking == false && Skip == false)
-        { StartCoroutine(NPCTalkingDaiolouge2()); }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && paragraph == 3
-            && NPCIsTalking == false && Skip == false)
-        { StartCoroutine(NPCTalkingDaiolouge3()); }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && paragraph == 4
-            && NPCIsTalking == false && Skip == false)
-        { ClosePanel(); }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && paragraph > 4
-            && paragraph%2==1 && NPCIsTalking == false
-            &&Skip == false)
-        { StartCoroutine(NPCNormalTalking()); }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && paragraph>4
-            && paragraph % 2 == 0 && NPCIsTalking == false 
-            && Skip == false)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && NPCIsTalking == false && Skip == false)
         {
-            MissionPanel.SetActive(true);
-            TalkingPanel.SetActive(false);
+            switch (paragraph) 
+            {
+                case 2:
+                    StartCoroutine(NPCTalkingDaiolouge2());
+                    break;
+                case 3:
+                    StartCoroutine(NPCTalkingDaiolouge3());
+                    break;
+                case 4:
+                    ClosePanel();
+                    break;
+            }
+            if (paragraph > 4)
+            {
+                if (PlayGameData.NowMIS_NUM != 3)
+                {
+                    if (paragraph % 2 == 1)
+                    {
+                        StartCoroutine(NPCNormalTalking());
+                    }
+                    else if (paragraph % 2 == 0)
+                    {
+                        MissionPanel.SetActive(true);
+                        TalkingPanel.SetActive(false);
+                    }
+                }
+                else if (PlayGameData.NowMIS_NUM == 3)
+                {
+
+                }
+                
+            }
         }
     }
     private void OnTriggerEnter(Collider col)
@@ -112,10 +125,6 @@ public class NPCTalking : MonoBehaviour
             NPCANI.SetBool("Talking", false);
             MissionPanel.SetActive(true);
             TalkingPanel.SetActive(false);
-        }
-        if (paragraph>4 && paragraph%2 == 0)
-        {
-
         }
     }
     private void NPCStartTalking()
