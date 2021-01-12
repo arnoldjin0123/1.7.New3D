@@ -109,5 +109,6 @@ public class PlayGameData : MonoBehaviour
         FinishWordDissplay();
         ClearMIS();
         Debug.Log("You have finish the BackToNPC missioin");
+        NowMIS_NUM = 4;
     }
 }

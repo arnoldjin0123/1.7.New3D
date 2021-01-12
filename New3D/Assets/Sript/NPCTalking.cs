@@ -18,6 +18,8 @@ public class NPCTalking : MonoBehaviour
 
     [Header("MissionData")]
     public Misssion1 MissionData;
+    [Header("MissionFinishData")]
+    public Mission1Finish MissionFinishData;
     [Header("TalkingSpeed")]
     public float TalkingSpeed;
     private string NPCTalkingWord;
@@ -26,9 +28,13 @@ public class NPCTalking : MonoBehaviour
     //NPC正在說話Bool，快轉Bool，段落int
     private bool PlayerImTalkingArea = false;
     private bool NPCIsTalking = false;
+
     private bool DaioLouge1Talked = false;
+    private bool MIS1_F_D1_Talked = false;
+
     private bool Skip = false;
     private int paragraph = 0;
+    private int FinishMISParagraph = 0;
 
     private void Start()
     {
@@ -70,7 +76,15 @@ public class NPCTalking : MonoBehaviour
                 }
                 else if (PlayGameData.NowMIS_NUM == 3)
                 {
-
+                    switch (FinishMISParagraph)
+                    {
+                        case 1:
+                            StartCoroutine(NPCFinishMISDaiolouge2());
+                            break;
+                        case 2:
+                            StartCoroutine(NPCFinishMISDaiolouge3());
+                            break;
+                    }
                 }
                 
             }
@@ -106,7 +120,14 @@ public class NPCTalking : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse1) && NPCIsTalking == false && PlayerImTalkingArea == true)
         {
-            paragraph++;
+            if (PlayGameData.NowMIS_NUM != 3)
+            {
+                paragraph++;
+            }
+            if (PlayGameData.NowMIS_NUM == 3)
+            {
+                FinishMISParagraph++;
+            }
         }
     }
     private void OpenPanel()
@@ -129,18 +150,33 @@ public class NPCTalking : MonoBehaviour
     }
     private void NPCStartTalking()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1) && paragraph == 1 && DaioLouge1Talked ==false)
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            DaioLouge1Talked = true;
-            GameObject.Find("PlayGameData").GetComponent<PlayGameData>().MISTalkToNPC_FIN();
-            MissionPanel.SetActive(false);
-            TalkingPanel.SetActive(true);
-            StartCoroutine(NPCTalkingDaiolouge1());
-            Debug.Log("Start Daiolouge");
+            if (paragraph == 1 && DaioLouge1Talked == false)
+            {
+                DaioLouge1Talked = true;
+                GameObject.Find("PlayGameData").GetComponent<PlayGameData>().MISTalkToNPC_FIN();
+                MissionPanel.SetActive(false);
+                TalkingPanel.SetActive(true);
+                StartCoroutine(NPCTalkingDaiolouge1());
+                Debug.Log("Start Daiolouge");
+            }
+            else if (paragraph > 4 && PlayGameData.NowMIS_NUM == 3 && MIS1_F_D1_Talked == false)
+            {
+                Debug.Log("Start Mission Finish Daiolouge");
+                MIS1_F_D1_Talked = true;
+                MissionPanel.SetActive(false);
+                TalkingPanel.SetActive(true);
+                StartCoroutine(NPCFinishMISDaiolouge1());
+            }
         }
     }
+
     private IEnumerator NPCTalkingDaiolouge1()
     {
+        Debug.Log("Finish daiolouge1");
+        TalkingPanel.SetActive(true);
+        MissionPanel.SetActive(false);
         NPCTalkingWord = "";
         for (int i = 0; i < MissionData.Daiolouge1.Length; i++)
         {
@@ -198,6 +234,7 @@ public class NPCTalking : MonoBehaviour
         Skip = false;
         GameObject.Find("PlayGameData").GetComponent<PlayGameData>().MISKiilMonster_Take();
     }
+
     private IEnumerator NPCNormalTalking()
     {
         OpenPanel();
@@ -218,4 +255,69 @@ public class NPCTalking : MonoBehaviour
         NPCIsTalking = false;
         Skip = false;
     }
+
+    private IEnumerator NPCFinishMISDaiolouge1()
+    {
+        NPCTalkingWord = "";
+        for (int i = 0; i < MissionFinishData.Daiolouge1.Length; i++)
+        {
+            Debug.Log("Finish mission daiolouge1");
+            NPCIsTalking = true;
+            NPCTalkingWord += MissionFinishData.Daiolouge1[i] + "";
+            if (Skip == true)
+            {
+                NPCTalkingWord = MissionFinishData.Daiolouge1;
+                Skip = false;
+                NPCIsTalking = false;
+                yield break;
+            }
+            yield return new WaitForSeconds(TalkingSpeed);
+        }
+        NPCIsTalking = false;
+        Skip = false;
+    }
+    private IEnumerator NPCFinishMISDaiolouge2()
+    {
+        Debug.Log("Finish mission daiolouge2");
+        NPCTalkingWord = "";
+        for (int i = 0; i < MissionFinishData.Daiolouge2.Length; i++)
+        {
+            FinishMISParagraph++;
+            NPCIsTalking = true;
+            NPCTalkingWord += MissionFinishData.Daiolouge2[i] + "";
+            if (Skip == true)
+            {
+                NPCTalkingWord = MissionFinishData.Daiolouge2;
+                Skip = false;
+                NPCIsTalking = false;
+                yield break;
+            }
+            yield return new WaitForSeconds(TalkingSpeed);
+        }
+        NPCIsTalking = false;
+        Skip = false;
+    }
+    private IEnumerator NPCFinishMISDaiolouge3()
+    {
+        NPCTalkingWord = "";
+        for (int i = 0; i < MissionFinishData.Daiolouge3.Length; i++)
+        {
+            Debug.Log("Finish mission daiolouge3");
+            FinishMISParagraph++;
+            NPCIsTalking = true;
+            NPCTalkingWord += MissionFinishData.Daiolouge3[i] + "";
+            if (Skip == true)
+            {
+                NPCTalkingWord = MissionFinishData.Daiolouge3;
+                Skip = false;
+                GameObject.Find("PlayGameData").GetComponent<PlayGameData>().MISBackToNOC_FIN();
+                    yield break;
+            }
+            yield return new WaitForSeconds(TalkingSpeed);
+        }
+        NPCIsTalking = false;
+        Skip = false;
+        GameObject.Find("PlayGameData").GetComponent<PlayGameData>().MISBackToNOC_FIN();
+    }
 }
+
