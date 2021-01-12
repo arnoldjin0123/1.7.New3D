@@ -25,6 +25,9 @@ public class PlayGameData : MonoBehaviour
     public float UIFinishWord_ContinueTime = 7f;
     private float Timer_f;
     private bool TimerOn = false;
+
+    public GameObject Teleportdoor;
+
     private void Awake()
     {
         UIMISName = GameObject.Find("MissionText").GetComponent<Text>();
@@ -36,6 +39,7 @@ public class PlayGameData : MonoBehaviour
     private void Start()
     {
         MISTalkToNPC_Take();
+        Teleportdoor.SetActive(false);
     }
     private void Update()
     {
@@ -87,7 +91,7 @@ public class PlayGameData : MonoBehaviour
         MISName = ("討伐從天而降的獸人");
         MISDetal = ("跟著路牌尋找獸人並擊敗他");
         Debug.Log("You have take the KillMoster mission");
-        NowMIS_NUM = 1;
+        NowMIS_NUM = 2;
     }
     public void MISKillMonster_FIN()
     {
@@ -99,7 +103,7 @@ public class PlayGameData : MonoBehaviour
     public void MISBackToNPC_Take()
     {
         MISName = ("回報任務");
-        MISDetal = ("會去綠衣村民那裡回報任務");
+        MISDetal = ("去綠衣村民那裡回報任務");
         Debug.Log("You have take the BackToNPC mission");
         NowMIS_NUM = 3;
     }
@@ -109,6 +113,7 @@ public class PlayGameData : MonoBehaviour
         FinishWordDissplay();
         ClearMIS();
         Debug.Log("You have finish the BackToNPC missioin");
+        Teleportdoor.SetActive(true);
         NowMIS_NUM = 4;
     }
 }

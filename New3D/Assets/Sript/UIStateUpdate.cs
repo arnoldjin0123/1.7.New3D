@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIStateUpdate : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class UIStateUpdate : MonoBehaviour
     {
         PlayerHPSlider.value = PlayGameData.PlayerHP;
         PlayerBRSlider.value = PlayGameData.PlayerBreath;
-
     }
+
+    public void BackToTitle(){ SceneManager.LoadScene("Title");  }
+    public void ExitGame() { Application.Quit(); }
 }
