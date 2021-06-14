@@ -38,6 +38,7 @@ public class PlayGameData : MonoBehaviour
     }
     private void Start()
     {
+        PlayerHP = 100;
         MISTalkToNPC_Take();
         Teleportdoor.SetActive(false);
     }
